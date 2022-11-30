@@ -16,3 +16,4 @@ endif (CMAKE_BUILD_TYPE STREQUAL "Debug")
 message("Build Type: ${CMAKE_BUILD_TYPE} ${CMAKE_CXX_FLAGS}")
 
 add_subdirectory(src)
+add_subdirectory(test)
