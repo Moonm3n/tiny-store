@@ -1,9 +1,5 @@
 #include <cstdlib>
-#include <unistd.h>
-
-#include <ctime>
 #include <iostream>
-#include <thread>
 
 #include "b_plus_tree.h"
 
@@ -31,7 +27,7 @@ int main() {
   bpt.search_data(3);
   cout << "*****************************************************************************" << endl << endl;
 
-  bpt.save_bpt("/home/zhanyueyang/BPlusTree/tree_instance");
+  bpt.save_bpt("/home/zhanyueyang/tiny-store/tree_instance");
   for (int i = 0; i < 5; i++) {
     bpt.remove_data(i * 5);
     bpt.remove_data(i * 3);
@@ -44,7 +40,7 @@ int main() {
   bpt.print_tree();
   cout << "*****************************************************************************" << endl << endl;
 
-  bpt.read_bpt("/home/zhanyueyang/BPlusTree/tree_instance");
+  bpt.read_bpt("/home/zhanyueyang/tiny-store/tree_instance");
   bpt.print_tree();
   return 0;
 }
