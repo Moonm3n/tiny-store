@@ -14,7 +14,7 @@ FileHandler::~FileHandler() {}
 RC FileHandler::create_file(const char* file_name) {
   RC rc = RC::SUCCESS;
   if (file_name == nullptr) {
-    return RC::EMPTY_FILENAME;
+    return RC::GENERIC_ERROR;
   } else if (!file_name_.empty()) {
     return RC::GENERIC_ERROR;
   } else if (access(file_name, F_OK) != -1) {
@@ -37,16 +37,28 @@ RC FileHandler::open_file(const char* file_name) {
   int fd;
   if (file_name == nullptr) {
     if (file_name_.empty()) {
-      // Error.
+      rc = RC::GENERIC_ERROR;
     } else {
-      fd = open(file_name, O_RDWR | O_CREAT | O_EXCL, S_IREAD, S_IWRITE);
+      if ((fd = open(file_name_.c_str(), O_RDWR)) < 0) {
+        rc = RC::GENERIC_ERROR;
+      } else {
+        fd_ = fd;
+      }
     }
   } else {
     if (!file_name_.empty()) {
+      rc = RC::GENERIC_ERROR;
     } else {
+      if ((fd = open(file_name, O_RDWR)) < 0) {
+        return RC::GENERIC_ERROR;
+      } else {
+        file_name_ = file_name;
+        fd_ = fd;
+      }
     }
   }
-  return RC::SUCCESS;
+
+  return rc;
 }
 
 RC FileHandler::close_file() {
